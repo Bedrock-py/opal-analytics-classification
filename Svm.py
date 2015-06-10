@@ -9,7 +9,7 @@
 # permission of the Georgia Tech Research Institute.
 #****************************************************************/
 
-from ..analytics import Algorithm 
+from analytics.utils import Algorithm 
 
 from sklearn import svm
 import pandas as pd
@@ -40,7 +40,7 @@ class Svm(Algorithm):
 
         modelText = '''
 
-from ..analytics import Algorithm 
+from analytics.utils import Algorithm 
 from sklearn import svm
 import pandas as pd
 import scipy as sp
