@@ -9,7 +9,7 @@
 # permission of the Georgia Tech Research Institute.
 #****************************************************************/
 
-from analytics.utils import Algorithm 
+from analytics.utils import *
 
 from sklearn import svm
 import pandas as pd
