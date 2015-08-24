@@ -13,11 +13,9 @@
 from analytics.utils import Algorithm 
 
 from sklearn.neighbors import KNeighborsClassifier
-import pandas as pd
-import scipy as sp
 import numpy as np
+import scipy as sp
 import cPickle as pickle
-
 
 class Kkn(Algorithm):
     def __init__(self):
@@ -39,18 +37,13 @@ class Kkn(Algorithm):
         model.fit(matrix, labels)
         modelpath = kwargs['storepath'] + self.modelName + '.p'
         pickle.dump( model, open( modelpath, "wb" ) )
-
         modelText = '''
 
 from analytics.utils import Algorithm 
 from sklearn.neighbors import KNeighborsClassifier
-import pandas as pd
 import scipy as sp
 import numpy as np
 import cPickle as pickle
-
-def get_classname():
-    return '%s'
 
 class %s(Algorithm):
     def __init__(self):
@@ -60,7 +53,6 @@ class %s(Algorithm):
         self.outputs = ['assignments.csv']
         self.name ='%s'
         self.type = 'Classification'
-
         self.description = 'Applies the KKN model trained on a specific dataset: %s'
         self.parameters_spec = []
         self.modelfile = '%s'
@@ -70,8 +62,6 @@ class %s(Algorithm):
         model = pickle.load( open( self.modelfile, "rb" ) )
         assignments = model.predict(inputData)
         self.results = {'assignments.csv': assignments}
-
 ''' % (self.modelName, self.modelName, self.modelName, self.modelName, filepath['matrix.csv']['rootdir'], modelpath)
-
         self.results = {'analytic': {'text': modelText, 'classname': self.modelName} }
 

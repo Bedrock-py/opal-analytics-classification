@@ -10,10 +10,7 @@
 #****************************************************************/
 
 from analytics.utils import Algorithm 
-
 from sklearn import svm
-import pandas as pd
-import scipy as sp
 import numpy as np
 import cPickle as pickle
 
@@ -37,18 +34,12 @@ class Svm(Algorithm):
         model.fit(inputData, truth)
         modelpath = kwargs['storepath'] + name + '.p'
         pickle.dump( model, open( modelpath, "wb" ) )
-
         modelText = '''
 
 from analytics.utils import Algorithm 
 from sklearn import svm
-import pandas as pd
-import scipy as sp
 import numpy as np
 import cPickle as pickle
-
-def get_classname():
-    return '%s'
 
 class %s(Algorithm):
     def __init__(self):
@@ -58,7 +49,6 @@ class %s(Algorithm):
         self.outputs = ['assignments.csv']
         self.name ='%s'
         self.type = 'Model'
-
         self.description = 'Applies the SVM model trained on a specific dataset: %s'
         self.parameters_spec = []
         self.modelfile = '%s'
@@ -73,9 +63,7 @@ class %s(Algorithm):
         model = pickle.load( open( self.modelfile, "rb" ) )
         inputData = input.split(',')
         return model.predict(inputData)
-
 ''' % (name, name, name, name, filepath['matrix.csv']['rootdir'], modelpath)
-
         self.results = {'analytic': {'text': modelText, 'classname': name} }
 
 
