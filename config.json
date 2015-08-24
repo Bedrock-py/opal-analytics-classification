@@ -1,8 +1,6 @@
 { "opal-analytics-classification": 
         {
             "description": "Default classification algorithms",
-            "host": "github.gatech.edu",
-            "repo": "Bedrock/opal-analytics-classification.git",
             "units": "Kkn.py Svm.py",
             "supports": "",
             "python_dependencies": "numpy scipy sklean pandas",
