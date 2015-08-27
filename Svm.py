@@ -63,7 +63,7 @@ class %s(Algorithm):
         model = pickle.load( open( self.modelfile, "rb" ) )
         inputData = input.split(',')
         return model.predict(inputData)
-''' % (name, name, name, name, filepath['matrix.csv']['rootdir'], modelpath)
+''' % (name, name, name, filepath['matrix.csv']['rootdir'], modelpath)
         self.results = {'analytic': {'text': modelText, 'classname': name} }
 
 

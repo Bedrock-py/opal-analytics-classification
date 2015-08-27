@@ -20,22 +20,21 @@ import cPickle as pickle
 class Kkn(Algorithm):
     def __init__(self):
         super(Kkn, self).__init__()
-        self.parameters = ['truthLabelsColumn','modelName']
-        self.inputs = ['matrix.csv']
+        self.parameters = []
+        self.inputs = ['matrix.csv', 'truth_labels.csv']
         self.outputs = ['model']
         self.name ='KKN'
         self.type = 'Classification'
         self.description = 'Trains an KKN model using the input dataset with identified truth labels.'
-        self.parameters_spec = [ { "name" : "Column index of truth labels", "attrname" : "truthLabelsColumn", "value" : 0, "type" : "input", "step": 1, "max": 1000, "min": 0 },
-                                { "name" : "Name of model", "attrname" : "modelName", "value" : "default", "type" : "input" }]
+        self.parameters_spec = []
 
     def compute(self, filepath, **kwargs):
         inputData = np.genfromtxt(filepath['matrix.csv']['rootdir'] + 'matrix.csv', delimiter=',') 
-        matrix = sp.delete(inputData, int(self.truthLabelsColumn), 1)
-        labels = inputData[:,int(self.truthLabelsColumn)]
+        truth = np.genfromtxt(filepath['truth_labels.csv']['rootdir'] + 'truth_labels.csv', delimiter=',')
         model = KNeighborsClassifier()
-        model.fit(matrix, labels)
-        modelpath = kwargs['storepath'] + self.modelName + '.p'
+        name = kwargs['name']
+        model.fit(inputData, truth)
+        modelpath = kwargs['storepath'] + name + '.p'
         pickle.dump( model, open( modelpath, "wb" ) )
         modelText = '''
 
@@ -62,6 +61,6 @@ class %s(Algorithm):
         model = pickle.load( open( self.modelfile, "rb" ) )
         assignments = model.predict(inputData)
         self.results = {'assignments.csv': assignments}
-''' % (self.modelName, self.modelName, self.modelName, self.modelName, filepath['matrix.csv']['rootdir'], modelpath)
-        self.results = {'analytic': {'text': modelText, 'classname': self.modelName} }
+''' % (name, name, name, filepath['matrix.csv']['rootdir'], modelpath)
+        self.results = {'analytic': {'text': modelText, 'classname': name} }
 
