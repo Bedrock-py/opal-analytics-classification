@@ -30,6 +30,8 @@ class Kkn(Algorithm):
 
     def compute(self, filepath, **kwargs):
         inputData = np.genfromtxt(filepath['matrix.csv']['rootdir'] + 'matrix.csv', delimiter=',') 
+        if len(inputData.shape) == 1:
+            inputData.shape=[inputData.shape[0],1]
         truth = np.genfromtxt(filepath['truth_labels.csv']['rootdir'] + 'truth_labels.csv', delimiter=',')
         model = KNeighborsClassifier()
         name = kwargs['name']
@@ -58,6 +60,8 @@ class %s(Algorithm):
 
     def compute(self, filepath, **kwargs):
         inputData = np.genfromtxt(filepath['matrix.csv']['rootdir'] + 'matrix.csv', delimiter=',') 
+        if len(inputData.shape) == 1:
+            inputData.shape=[inputData.shape[0],1]
         model = pickle.load( open( self.modelfile, "rb" ) )
         assignments = model.predict(inputData)
         self.results = {'assignments.csv': assignments}
