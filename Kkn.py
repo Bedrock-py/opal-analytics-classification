@@ -53,7 +53,7 @@ class %s(Algorithm):
         self.inputs = ['matrix.csv']
         self.outputs = ['assignments.csv']
         self.name ='%s'
-        self.type = 'Classification'
+        self.type = 'Model'
         self.description = 'Applies the KKN model trained on a specific dataset: %s'
         self.parameters_spec = []
         self.modelfile = '%s'
@@ -65,6 +65,10 @@ class %s(Algorithm):
         model = pickle.load( open( self.modelfile, "rb" ) )
         assignments = model.predict(inputData)
         self.results = {'assignments.csv': assignments}
+
+    def classify(self, input):
+        model = pickle.load( open( self.modelfile, "rb" ) )
+        return model.predict(input)
 ''' % (name, name, name, filepath['matrix.csv']['rootdir'], modelpath)
         self.results = {'analytic': {'text': modelText, 'classname': name} }
 
