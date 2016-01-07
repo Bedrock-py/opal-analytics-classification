@@ -65,8 +65,7 @@ class %s(Algorithm):
 
     def classify(self, input):
         model = pickle.load( open( self.modelfile, "rb" ) )
-        inputData = input.split(',')
-        return model.predict(inputData)
+        return model.predict(input)
 ''' % (name, name, name, filepath['matrix.csv']['rootdir'], modelpath)
         self.results = {'analytic': {'text': modelText, 'classname': name} }
 
