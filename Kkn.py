@@ -36,7 +36,7 @@ class Kkn(Algorithm):
         if len(inputData.shape) == 1:
             inputData.shape=[inputData.shape[0],1]
         truth = np.genfromtxt(filepath['truth_labels.csv']['rootdir'] + 'truth_labels.csv', delimiter=',')
-        model = KNeighborsClassifier()
+        model = KNeighborsClassifier(algorithm=self.algorithm, leaf_size=int(self.leaf_size))
         name = kwargs['name']
         model.fit(inputData, truth)
         modelpath = kwargs['storepath'] + name + '.p'
