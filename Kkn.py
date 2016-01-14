@@ -26,7 +26,10 @@ class Kkn(Algorithm):
         self.name ='KKN'
         self.type = 'Classification'
         self.description = 'Trains an KKN model using the input dataset with identified truth labels.'
-        self.parameters_spec = []
+        self.parameters_spec = [
+             { "name" : "Algorithm", "attrname" : "algorithm", "value" : "auto", "type" : "select", "options": ["auto","ball_tree","kd_tree","brute"] },
+             { "name" : "Leaf size", "attrname" : "leaf_size", "value" : "30", "type" : "input"}
+        ]
 
     def compute(self, filepath, **kwargs):
         inputData = np.genfromtxt(filepath['matrix.csv']['rootdir'] + 'matrix.csv', delimiter=',') 
