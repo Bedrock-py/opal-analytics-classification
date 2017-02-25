@@ -26,12 +26,17 @@ class Knn(Algorithm):
         self.name ='KNN'
         self.type = 'Classification'
         self.description = 'Trains an KNN model using the input dataset with identified truth labels.'
-        self.parameters_spec = []
+        self.parameters_spec = [
+             { "name" : "Algorithm", "attrname" : "algorithm", "value" : "auto", "type" : "select", "options": ["auto","ball_tree","kd_tree","brute"] },
+             { "name" : "Leaf size", "attrname" : "leaf_size", "value" : "30", "type" : "input"}
+        ]
 
     def compute(self, filepath, **kwargs):
         inputData = np.genfromtxt(filepath['matrix.csv']['rootdir'] + 'matrix.csv', delimiter=',') 
+        if len(inputData.shape) == 1:
+            inputData.shape=[inputData.shape[0],1]
         truth = np.genfromtxt(filepath['truth_labels.csv']['rootdir'] + 'truth_labels.csv', delimiter=',')
-        model = KNeighborsClassifier()
+        model = KNeighborsClassifier(algorithm=self.algorithm, leaf_size=int(self.leaf_size))
         name = kwargs['name']
         model.fit(inputData, truth)
         modelpath = kwargs['storepath'] + name + '.p'
@@ -58,9 +63,15 @@ class %s(Algorithm):
 
     def compute(self, filepath, **kwargs):
         inputData = np.genfromtxt(filepath['matrix.csv']['rootdir'] + 'matrix.csv', delimiter=',') 
+        if len(inputData.shape) == 1:
+            inputData.shape=[inputData.shape[0],1]
         model = pickle.load( open( self.modelfile, "rb" ) )
         assignments = model.predict(inputData)
         self.results = {'assignments.csv': assignments}
+
+    def classify(self, input):
+        model = pickle.load( open( self.modelfile, "rb" ) )
+        return model.predict(input)
 ''' % (name, name, name, filepath['matrix.csv']['rootdir'], modelpath)
         self.results = {'analytic': {'text': modelText, 'classname': name} }
 

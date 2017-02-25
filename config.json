@@ -3,7 +3,7 @@
             "description": "Default classification algorithms",
             "units": "Kkn.py Svm.py",
             "supports": "",
-            "python_dependencies": "numpy scipy sklean pandas",
+            "python_dependencies": "numpy scipy sklearn pandas",
             "system_dependencies": "",
             "api": "analytics",
             "interface": "analytics",

@@ -24,13 +24,19 @@ class Svm(Algorithm):
         self.name ='SVM'
         self.type = 'Classification'
         self.description = 'Trains an SVM model using the input dataset and truth labels.'
-        self.parameters_spec = []
+        self.parameters_spec = [
+             { "name" : "Kernel", "attrname" : "kernel", "value" : "rbf", "type" : "select", "options": ["rbf","linear","poly","sigmoid","precomputed"] },
+             { "name" : "Degree", "attrname" : "degree", "value" : "3", "type" : "input"},
+             { "name" : "Use probability estimates", "attrname" : "probability", "value" : False, "type" : "checkbox"}
+        ]
 
     def compute(self, filepath, **kwargs):
         inputData = np.genfromtxt(filepath['matrix.csv']['rootdir'] + 'matrix.csv', delimiter=',') 
+        if len(inputData.shape) == 1:
+            inputData.shape=[inputData.shape[0],1]
         truth = np.genfromtxt(filepath['truth_labels.csv']['rootdir'] + 'truth_labels.csv', delimiter=',')
         name = kwargs['name']
-        model = svm.SVC()
+        model = svm.SVC(kernel=str(self.kernel), probability=bool(self.probability), degree=int(self.degree))
         model.fit(inputData, truth)
         modelpath = kwargs['storepath'] + name + '.p'
         pickle.dump( model, open( modelpath, "wb" ) )
@@ -55,14 +61,15 @@ class %s(Algorithm):
 
     def compute(self, filepath, **kwargs):
         inputData = np.genfromtxt(filepath['matrix.csv']['rootdir'] + 'matrix.csv', delimiter=',') 
+        if len(inputData.shape) == 1:
+            inputData.shape=[inputData.shape[0],1]
         model = pickle.load( open( self.modelfile, "rb" ) )
         assignments = model.predict(inputData)
         self.results = {'assignments.csv': assignments}
 
     def classify(self, input):
         model = pickle.load( open( self.modelfile, "rb" ) )
-        inputData = input.split(',')
-        return model.predict(inputData)
+        return model.predict(input)
 ''' % (name, name, name, filepath['matrix.csv']['rootdir'], modelpath)
         self.results = {'analytic': {'text': modelText, 'classname': name} }
 
