@@ -10,22 +10,22 @@
 # permission of the Georgia Tech Research Institute.
 #****************************************************************/
 
-from analytics.utils import * 
+from bedrock.analytics.utils import * 
 
 from sklearn.neighbors import KNeighborsClassifier
 import numpy as np
 import scipy as sp
 import cPickle as pickle
 
-class Kkn(Algorithm):
+class Knn(Algorithm):
     def __init__(self):
-        super(Kkn, self).__init__()
+        super(Knn, self).__init__()
         self.parameters = []
         self.inputs = ['matrix.csv', 'truth_labels.csv']
         self.outputs = ['model']
-        self.name ='KKN'
+        self.name ='KNN'
         self.type = 'Classification'
-        self.description = 'Trains an KKN model using the input dataset with identified truth labels.'
+        self.description = 'Trains an KNN model using the input dataset with identified truth labels.'
         self.parameters_spec = [
              { "name" : "Algorithm", "attrname" : "algorithm", "value" : "auto", "type" : "select", "options": ["auto","ball_tree","kd_tree","brute"] },
              { "name" : "Leaf size", "attrname" : "leaf_size", "value" : "30", "type" : "input"}
@@ -56,8 +56,8 @@ class %s(Algorithm):
         self.inputs = ['matrix.csv']
         self.outputs = ['assignments.csv']
         self.name ='%s'
-        self.type = 'Model'
-        self.description = 'Applies the KKN model trained on a specific dataset: %s'
+        self.type = 'Classification'
+        self.description = 'Applies the KNN model trained on a specific dataset: %s'
         self.parameters_spec = []
         self.modelfile = '%s'
 
